@@ -97,25 +97,6 @@ def cross_validate(alg_func, data, trials=100, test_rate=0.05):
     return error/trials
 
 
-# 特征缩放与训练
-def rescale(data, scale):
-    scaled_data = []
-    for row in data:
-        scaled = [scale[i]*row['input'][i] for i in range(len(scale))]
-        scaled_data.append({'input': scaled, 'result': row['result']})
-    return scaled_data
-
-
-def create_cost_func(alg_func, data):
-    """
-    针对缩放向量构造代价函数，通过交叉验证方式训练并获取合适的缩放比例
-    """
-    def cost_func(scale):
-        scaled_data = rescale(data, scale)
-        return cross_validate(alg_func, scaled_data, trials=10)
-    return cost_func
-
-
 # 判断价格落入某一区间的概率
 def prob_guess(data, vec1, low, high, k=5, weight_func=gaussian):
     distance_list = get_distances(data, vec1)
@@ -135,7 +116,7 @@ def prob_guess(data, vec1, low, high, k=5, weight_func=gaussian):
     return new_weight/total_weight
 
 
-# 概率可视化 重要
+# 概率可视化
 def prob_graph(data, vec1, high, k=5, weight_func=gaussian, sigma=5.0):
     t1 = arange(0.0, high, 0.1)
     probabilities = [prob_guess(data, vec1, v, v+0.1, k, weight_func) for v in t1]

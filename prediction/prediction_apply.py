@@ -8,7 +8,7 @@
 """
 from random import random, randint
 from pylab import arange, array, plot, show
-from prediction import cross_validate, weighted_knn, create_cost_func, knn_estimate, gaussian, prob_guess, prob_graph
+from prediction import cross_validate, weighted_knn, knn_estimate, gaussian, prob_guess, prob_graph
 from optimization.optimization import random_optimize, genetic_optimize, annealing_optimize, hill_climb
 
 
@@ -60,21 +60,37 @@ def wine_set3():
     return rows
 
 
-# # ------------
+# 特征缩放
+def rescale(data, scale):
+    scaled_data = []
+    for row in data:
+        scaled = [scale[i]*row['input'][i] for i in range(len(scale))]
+        scaled_data.append({'input': scaled, 'result': row['result']})
+    return scaled_data
+
+
+# 针对缩放向量构造代价函数，后通过交叉验证方式训练并获取合适的缩放比例
+def create_cost_func(alg_func, data):
+    def cost_func(scale):
+        scaled_data = rescale(data, scale)
+        return cross_validate(alg_func, scaled_data, trials=10)
+    return cost_func
+
+
+# -----------------------------------------
+
+
 # data1 = wine_set1()
 # print weighted_knn(data1, (99, 5))
 # print cross_validate(weighted_knn, data1)
-#
-#
-# # ------------
-# # 应用于 字段价值判断
-# data2 = wine_set2()
-# cost_f = create_cost_func(weighted_knn, data2)
-# weight_domain = [(0, 20)] * 4
-# scale_weight, cost = genetic_optimize(weight_domain, cost_f, pop_size=5, max_iter=20)
-# print scale_weight, cost
 
 
-# ------------
-data3 = wine_set3()
-prob_graph(data3, [99, 20], 120)
+data2 = wine_set2()
+cost_f = create_cost_func(weighted_knn, data2)
+weight_domain = [(0, 20)] * 4
+scale_weight, cost = genetic_optimize(weight_domain, cost_f, pop_size=5, max_iter=20)
+print scale_weight, cost
+
+
+# data3 = wine_set3()
+# prob_graph(data3, [99, 20], 120)
