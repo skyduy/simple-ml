@@ -5,6 +5,8 @@
     Author: YuJun
     Email: cuteuy@gmail.com
     Date created: 2017/1/10
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    注：实验中模拟去火和爬山法不能取得良好成绩
 """
 
 
@@ -16,7 +18,7 @@ def random_optimize(domain, cos_fuc):
     best = 999999999
     best_random = None
     for i in range(1000):
-        r = [random.randint(domain[i][0], domain[i][1]) for i in range(len(domain))]
+        r = [random.randint(domain[k][0], domain[k][1]) for k in range(len(domain))]
         cost = cos_fuc(r)
         if cost < best:
             best = cost
@@ -51,7 +53,7 @@ def hill_climb(domain, cost_func):
 def annealing_optimize(domain, cost_fuc, t=10000.0, cool=0.95, step=1):
     vec = [float(random.randint(domain[i][0], domain[i][1])) for i in range(len(domain))]
 
-    while t > 0.001:
+    while t > 0.1:
         i = random.randint(0, len(domain)-1)
 
         direction = random.randint(-step, step)
@@ -65,16 +67,13 @@ def annealing_optimize(domain, cost_fuc, t=10000.0, cool=0.95, step=1):
 
         cost = cost_fuc(vec)
         new_cost = cost_fuc(new_vec)
-
         # 这里 pow(math.e, -(new_cost-cost)/t) 为模拟火的概率
         # 若new_cost > cost 的话，如果t很高，比较能接收new_cost
         # 随着t的降低，比较能接受较小的new_cost
         # 随着t更低，逐渐不能接受高的new_cost
-        if new_cost < cost or random.random() < pow(math.e, -(new_cost-cost)/t):
+        if new_cost < cost or random.random() < pow(math.e, -(new_cost+cost)/t):
             vec = new_vec
-
         t *= cool
-
     return vec, cost_fuc(vec)
 
 
@@ -121,7 +120,7 @@ def genetic_optimize(domain, cost_func, pop_size=50, step=1, mut_prob=0.2, elite
                 new_member = crossover(ranked[c1], ranked[c2])
                 pop.append(new_member)
 
-        # print scores[0][0]
+            # print i, scores[0][0]
 
     return scores[0][1], scores[0][0]
 
