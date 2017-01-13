@@ -9,7 +9,7 @@
 
 import numpy as np
 from nmf import factorize
-from word_data_prepare import make_matrix
+from data_prepare import make_matrix
 
 
 def ft():
@@ -17,19 +17,19 @@ def ft():
     print 'task begin'
     weight_matrix, feature_matrix = factorize(word_matrix, 30, 300)
 
-    np.savetxt('word_data/weight_matrix.txt', weight_matrix)
-    np.savetxt('word_data/feature_matrix.txt', feature_matrix)
+    np.savetxt('data/weight_matrix.txt', weight_matrix)
+    np.savetxt('data/feature_matrix.txt', feature_matrix)
 
 
-def show_result(f_out='word_data/features.txt', a_out='word_data/articles.txt'):
+def show_result(f_out='data/features.txt', a_out='data/articles.txt'):
     """
     :param f_out: 文件1的名字，每块第一行表示新特征权重最大的几个单词，后几行在哪几篇文章中权重最大
     :param a_out: 文件2的名字，每块第一行表示文章名，后几行表示组成该文章权重最大的几个特征
     :return:
     """
     word_matrix, wordvec, titles = make_matrix()
-    w = np.asmatrix(np.loadtxt('word_data/weight_matrix.txt'))
-    h = np.asmatrix(np.loadtxt('word_data/feature_matrix.txt'))
+    w = np.asmatrix(np.loadtxt('data/weight_matrix.txt'))
+    h = np.asmatrix(np.loadtxt('data/feature_matrix.txt'))
     pc, wc = np.shape(h)
     top_patterns = [[] for _ in range(len(titles))]
     pattern_names = []

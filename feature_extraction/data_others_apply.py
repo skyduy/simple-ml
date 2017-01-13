@@ -9,7 +9,7 @@
 from __future__ import unicode_literals
 import math
 import MySQLdb
-from word_data_prepare import make_matrix
+from data_prepare import make_matrix
 from cluster.clusters_apply import generate_cluster, print_clusters
 
 

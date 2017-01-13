@@ -96,22 +96,22 @@ def save_article_words():
                 unique_all_words[key] += 1
             ec += 1
         print i,
-    with open('word_data/unique_all_words.json', 'w') as fp:
+    with open('data/unique_all_words.json', 'w') as fp:
         json.dump(unique_all_words, fp)
-    with open('word_data/all_words.json', 'w') as fp:
+    with open('data/all_words.json', 'w') as fp:
         json.dump(all_words, fp)
-    with open('word_data/article_words.json', 'w') as fp:
+    with open('data/article_words.json', 'w') as fp:
         json.dump(article_words, fp)
-    with open('word_data/article_titles.json', 'w') as fp:
+    with open('data/article_titles.json', 'w') as fp:
         json.dump(article_titles, fp)
 
 
 def make_matrix():
-    with open('word_data/unique_all_words.json', 'r') as fp:
+    with open('data/unique_all_words.json', 'r') as fp:
         allw = json.load(fp)
-    with open('word_data/article_words.json', 'r') as fp:
+    with open('data/article_words.json', 'r') as fp:
         articlew = json.load(fp)
-    with open('word_data/article_titles.json', 'r') as fp:
+    with open('data/article_titles.json', 'r') as fp:
         article_titles = json.load(fp)
 
     wordvec = []
