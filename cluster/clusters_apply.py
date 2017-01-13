@@ -103,7 +103,7 @@ def prepare_data(filename):
         p = line.strip().split('\t')
         # First column in each row is the rowname
         rownames.append(p[0])
-        # The word_data for this row is the remainder of the row
+        # The data for this row is the remainder of the row
         data.append([float(x) for x in p[1:]])
     return rownames, colnames, data
 
@@ -114,13 +114,13 @@ if __name__ == "__main__":
     print_clusters(cluster, blog_names)
 
     # # 列为单位聚类，即针对单词聚类
-    # rev_data = rotate_matrix(word_data)
+    # rev_data = rotate_matrix(data)
     # cluster = generate_cluster(rev_data)
     # print_clusters(cluster, words)
 
     # # k-means聚类
-    # k_clust = k_means_cluster(word_data, k=4)
+    # k_clust = k_means_cluster(data, k=4)
     # print k_clust
     #
-    # loc = scale_down(word_data, rate=0.01)
+    # loc = scale_down(data, rate=0.01)
     # draw_2d(loc, blog_names)

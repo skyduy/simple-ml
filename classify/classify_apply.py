@@ -94,7 +94,7 @@ def process_data(old_rows):
 if __name__ == '__main__':
     # # ----------------------
     # age_only_data = load_match('matchmaker.csv', age_only=True)
-    # print age_only_data[0].word_data
+    # print age_only_data[0].data
     # print linear_classify([31, 33], age_only_data)
     # print linear_classify([48, 20], age_only_data)
     # plot_age_matches(age_only_data)
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # # ----------------------
     # raw_data = load_match('matchmaker.csv')
     # scale_set = process_data(raw_data)
-    # print linear_classify(scale_set[11].word_data, scale_set)
+    # print linear_classify(scale_set[11].data, scale_set)
     # print scale_set[11].match
     # print
     # print linear_classify([48, 20], scale_set)
