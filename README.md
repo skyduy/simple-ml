@@ -1,4 +1,5 @@
 #   机器学习简易算法 / 应用实现
+Looking for more concise code in python3? switch to branch [py3](https://github.com/skyduy/simple-ml/tree/py3).
 
 文件夹 | 基本算法 | 应用
 ----|------|----
