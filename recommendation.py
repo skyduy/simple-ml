@@ -1,4 +1,6 @@
 import pandas as pd
+from surprise import SVD, Reader, Dataset
+# model-based recommendation
 
 
 def load_data():
@@ -17,6 +19,29 @@ def load_data():
                           'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
         'Toby': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 1.0, 'Superman Returns': 4.0}
     }
-    return pd.DataFrame.from_dict(critics, orient='index')
+    uid, iid, rating = [], [], []
+    for user, prefer in critics.items():
+        for item, score in prefer.items():
+            uid.append(user)
+            iid.append(item)
+            rating.append(score)
+    min_rating = min(rating)
+    max_rating = max(rating)
+    raw_data = {'uid': uid, 'iid': iid, 'rating': rating}
+    df = pd.DataFrame(raw_data)
+    reader = Reader(rating_scale=(min_rating, max_rating))
+    data = Dataset.load_from_df(df[['uid', 'iid', 'rating']], reader)
+    return (uid, iid, rating), data
 
-# TODO using funk-SVD
+
+def train(data, n_components):
+    algo = SVD(n_factors=n_components)
+    algo.fit(data)
+    return algo
+
+
+if __name__ == '__main__':
+    raw_data, data = load_data()
+    model = train(data.build_full_trainset(), 6)
+    for uid, iid, rating in zip(*raw_data):
+        print(model.predict(uid, iid).est, rating)
